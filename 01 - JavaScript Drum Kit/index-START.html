@@ -57,7 +57,32 @@
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
+
+
+
 <script>
+
+function playSound(e){
+      const audio = document.querySelector(`audio[data-key = "${e.keyCode}"]`);
+      const key = document.querySelector(`.key[data-key = "${e.keyCode}"]`);
+
+      if (!audio) return; //stops function from running
+      audio.currentTime = 0; //rewinds to the start, enables you to press quickly with no delay
+      audio.play();
+
+      key.classList.add('playing');
+}
+
+function removeTransition(e) {
+  if (e.propertyName !== 'transform') return;
+  this.classList.remove('playing'); //"this" is whatever was called, in this case the removeTransition function is performed on a key so "this" is the key
+}
+
+const keys = document.querySelectorAll('.key');// selects all items with .key and stores them in "keys"
+keys.forEach(key => key.addEventListener('transitionend', removeTransition)); // in "keys" add an eventlistener to each item (key) and when the event is performed you run the function
+
+window.addEventListener('keydown', playSound);//when key is pressed playSound is called
+
 
 </script>
 
